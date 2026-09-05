@@ -1,3 +1,5 @@
+import './globals.css';
+
 export const metadata = {
   title: '籃卡進出管理系統',
   description: 'Basket Management System',
