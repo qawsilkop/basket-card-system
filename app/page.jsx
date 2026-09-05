@@ -1,3 +1,6 @@
+<Link href="/login" className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors ml-2 shadow-sm">
+  管理員登入
+</Link>
 'use client';
 
 import React, { useState, useEffect } from 'react';
