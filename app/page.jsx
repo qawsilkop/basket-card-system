@@ -1,9 +1,7 @@
-<Link href="/login" className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors ml-2 shadow-sm">
-  管理員登入
-</Link>
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import Link from 'next/link';
 import { supabase } from '../lib/supabase';
 
 const i18n = {
@@ -63,7 +61,7 @@ export default function HomePage() {
     <div className={`min-h-screen p-4 ${theme === 'dark-tech' ? 'bg-slate-900 text-white' : 'bg-slate-100 text-slate-800'}`}>
       <header className="flex justify-between items-center bg-white/10 p-3 rounded-xl mb-4 backdrop-blur-md">
         <h1 className="font-extrabold text-lg">{t.title}</h1>
-        <div className="flex gap-2">
+        <div className="flex items-center gap-2">
           <select value={lang} onChange={(e) => setLang(e.target.value)} className="bg-slate-800 text-white text-xs p-2 rounded-lg">
             <option value="zh-TW">繁體中文</option>
             <option value="en">English</option>
@@ -75,10 +73,10 @@ export default function HomePage() {
             <option value="mobile-buttons">風格三：大按鈕現場風</option>
             <option value="dark-tech">風格一：深色戰情室</option>
             <option value="clean-ui">風格二：極簡現代風</option>
-            <button className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors ml-2 shadow-sm">
-  管理員登入
-</button>
           </select>
+          <Link href="/login" className="bg-blue-600 hover:bg-blue-700 text-white px-3 py-2 rounded-lg text-xs font-medium transition-colors shadow-sm">
+            管理員登入
+          </Link>
         </div>
       </header>
 
