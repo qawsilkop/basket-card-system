@@ -72,6 +72,9 @@ export default function HomePage() {
             <option value="mobile-buttons">風格三：大按鈕現場風</option>
             <option value="dark-tech">風格一：深色戰情室</option>
             <option value="clean-ui">風格二：極簡現代風</option>
+            <button className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors ml-2 shadow-sm">
+  管理員登入
+</button>
           </select>
         </div>
       </header>
