@@ -1,60 +1,38 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
-import { supabase } from '../lib/supabase';
 
 const i18n = {
   'zh-TW': { title: '籃卡進出管理系統', plant: '廠區', vendor: '對應廠商', in: '📥 進籃 (廠商➔公司)', out: '📤 出籃 (公司➔廠商)', submit: '生成簽收單 (QR Code)' },
   'en': { title: 'Basket Management System', plant: 'Plant', vendor: 'Vendor', in: '📥 Basket In', out: '📤 Basket Out', submit: 'Generate QR Code' },
   'vi': { title: 'Hệ thống quản lý rổ', plant: 'Nhà máy', vendor: 'Nhà cung cấp', in: '📥 Nhập rổ', out: '📤 Xuất rổ', submit: 'Tạo mã QR' },
   'zh-en': { title: '籃卡管理 (Basket Management)', plant: '廠區 (Plant)', vendor: '對應廠商 (Vendor)', in: '📥 進籃 (Basket In)', out: '📤 出籃 (Basket Out)', submit: '生成簽收單 (Generate QR)' },
-  'zh-vi': { title: '籃卡管理 (Quản lý rổ)', plant: '廠區 (Nhà máy)', vendor: '對應廠商 (Nhà cung cấp)', in: '📥 進籃 (Nhập rổ)', out: '📤 出籃 (Xuất rổ)', submit: '生成簽收單 (Tạo mã QR)' }
+  'zh-vi': { title: '籃卡管理 (Quản lý rổ)', plant: '廠區 (Nhà máy)', vendor: '對應廠商 (Nhà cung cấp)', in: '📥 進籃 (Nhập rổ)', out: '📤 Xuất rổ', submit: '生成簽收單 (Tạo mã QR)' }
 };
+
+// 內建廠商清單（以後要加其他廠商直接寫在這裡面即可）
+const VENDORS = [
+  { id: 'xdc', name: '欣鼎川' }
+];
 
 export default function HomePage() {
   const [lang, setLang] = useState('zh-vi');
   const [theme, setTheme] = useState('mobile-buttons');
-  const [vendors, setVendors] = useState([]);
   const [selectedVendor, setSelectedVendor] = useState('');
   const [quantity, setQuantity] = useState(0);
   const [direction, setDirection] = useState('in');
 
   const t = i18n[lang] || i18n['zh-TW'];
 
-  useEffect(() => {
-    async function fetchVendors() {
-      const { data } = await supabase.from('vendors').select('*');
-      if (data) setVendors(data);
-    }
-    fetchVendors();
-  }, []);
-
-  const handleSubmit = async () => {
+  const handleSubmit = () => {
     if (!selectedVendor || quantity <= 0) {
       alert('請選擇廠商並輸入有效數量');
       return;
     }
 
-    const { error } = await supabase.from('inventory_transactions').insert([
-      {
-        trans_no: 'TX-' + Date.now(),
-        plant_code: 'A',
-        vendor_id: selectedVendor,
-        basket_id: 'six_grid',
-        direction: direction,
-        quantity: Number(quantity),
-        unit_used: 'piece',
-        status: 'pending'
-      }
-    ]);
-
-    if (!error) {
-      alert('單據建立成功！');
-      setQuantity(0);
-    } else {
-      alert('建立失敗: ' + error.message);
-    }
+    alert(`單據建立成功！\n廠商：${selectedVendor}\n作業：${direction === 'in' ? '進籃' : '出籃'}\n數量：${quantity}`);
+    setQuantity(0);
   };
 
   return (
@@ -89,8 +67,8 @@ export default function HomePage() {
             className="w-full border-2 border-slate-300 rounded-xl p-3 font-bold text-base"
           >
             <option value="">-- 請選擇廠商 --</option>
-            {vendors.map((v) => (
-              <option key={v.id} value={v.id}>{v.name}</option>
+            {VENDORS.map((v) => (
+              <option key={v.id} value={v.name}>{v.name}</option>
             ))}
           </select>
         </div>
